@@ -38,7 +38,7 @@ export default function Home() {
   const [notice, setNotice] = useState('');
   const [wishlistIds, setWishlistIds] = useState(new Set());
   const [showFilters, setShowFilters] = useState(false);
-  
+
   // Quick View State
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   const [selectedQuickSize, setSelectedQuickSize] = useState('M');
@@ -88,11 +88,11 @@ export default function Home() {
 
   useEffect(() => {
     api('/products').then(setProducts).catch(() => setProducts(fallback));
-    api('/categories').then(setCategoriesList).catch(() => {});
+    api('/categories').then(setCategoriesList).catch(() => { });
     if (getSession()) {
       api('/wishlist')
         .then(list => setWishlistIds(new Set(list.map(p => p.id))))
-        .catch(() => {});
+        .catch(() => { });
     }
   }, []);
 
@@ -104,8 +104,8 @@ export default function Home() {
   }, [quickViewProduct]);
 
   const ALL_BRANDS = [
-    'Atelier Gold', 'Luxe Classic', 'StreetElite', 'Aura London', 'DenimCraft', 
-    'Gucci', 'Chanel', 'Prada', 'Louis Vuitton', 'Zara', 'H&M', 'Hermes', 
+    'Atelier Gold', 'Luxe Classic', 'StreetElite', 'Aura London', 'DenimCraft',
+    'Gucci', 'Chanel', 'Prada', 'Louis Vuitton', 'Zara', 'H&M', 'Hermes',
     'Dolce & Gabbana', 'Versace', 'Armani', 'Burberry', 'Saint Laurent'
   ];
 
@@ -116,27 +116,27 @@ export default function Home() {
   }, [products]);
 
   const filtered = useMemo(() => products.filter(product => {
-    const matchesQuery = product.name.toLowerCase().includes(query.toLowerCase()) || 
-                         product.description?.toLowerCase().includes(query.toLowerCase()) ||
-                         product.brand?.toLowerCase().includes(query.toLowerCase());
-    
+    const matchesQuery = product.name.toLowerCase().includes(query.toLowerCase()) ||
+      product.description?.toLowerCase().includes(query.toLowerCase()) ||
+      product.brand?.toLowerCase().includes(query.toLowerCase());
+
     // Support matching both specific categories and parent groups (Men, Women, Children)
-    const matchesCategory = !category || 
-                            product.category?.name === category || 
-                            (category === 'Men' && product.category?.name.toLowerCase().includes('men')) ||
-                            (category === 'Women' && product.category?.name.toLowerCase().includes('women')) ||
-                            (category === 'Children' && product.category?.name.toLowerCase().includes('children'));
+    const matchesCategory = !category ||
+      product.category?.name === category ||
+      (category === 'Men' && product.category?.name.toLowerCase().includes('men')) ||
+      (category === 'Women' && product.category?.name.toLowerCase().includes('women')) ||
+      (category === 'Children' && product.category?.name.toLowerCase().includes('children'));
 
     const matchesBrand = !brand || product.brand === brand;
     const matchesSize = !size || product.sizes?.toLowerCase().includes(size.toLowerCase());
     const matchesColor = !color || product.colors?.toLowerCase().includes(color.toLowerCase());
     const matchesRating = !minRating || (product.averageRating || 0) >= Number(minRating);
-    
+
     // Apply discount calculation to price filter
     const discount = product.discountPercentage || 0;
     const currentPrice = discount > 0 ? Number(product.price) * (1 - discount / 100) : Number(product.price);
     const matchesPrice = currentPrice <= Number(maxPrice);
-    
+
     return matchesQuery && matchesCategory && matchesBrand && matchesSize && matchesColor && matchesRating && matchesPrice;
   }), [products, query, category, brand, size, color, minRating, maxPrice]);
 
@@ -187,7 +187,7 @@ export default function Home() {
       <section className="hero">
         <div>
           <p className="eyebrow">New season edit</p>
-          <h1>Modern fashion for everyday confidence</h1>
+          <h3>Modern fashion for everyday confidence</h3>
           <p>Shop curated essentials, sharp tailoring, dresses, denim, and premium layers for men and women.</p>
           <div className="hero-stats">
             <span><strong>6+</strong> wardrobe edits</span>
@@ -200,15 +200,15 @@ export default function Home() {
       <section className="filter-controls-header">
         <label className="searchbox">
           <Search size={18} />
-          <input 
-            value={query} 
-            onChange={e => setQuery(e.target.value)} 
-            placeholder="Search name/brand..." 
+          <input
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder="Search name/brand..."
           />
         </label>
-        
-        <button 
-          className={`filter-toggle-btn ${showFilters ? 'active' : ''}`} 
+
+        <button
+          className={`filter-toggle-btn ${showFilters ? 'active' : ''}`}
           onClick={() => setShowFilters(!showFilters)}
           aria-label="Toggle filter panel"
         >
@@ -226,25 +226,25 @@ export default function Home() {
           <div className="filter-group">
             <h4>Category</h4>
             <div className="chip-group">
-              <button 
+              <button
                 className={`filter-chip ${category === '' ? 'active' : ''}`}
                 onClick={() => setCategory('')}
               >
                 All Categories
               </button>
-              <button 
+              <button
                 className={`filter-chip ${category === 'Men' ? 'active' : ''}`}
                 onClick={() => handleCategoryClick('Men')}
               >
                 Men
               </button>
-              <button 
+              <button
                 className={`filter-chip ${category === 'Women' ? 'active' : ''}`}
                 onClick={() => handleCategoryClick('Women')}
               >
                 Women
               </button>
-              <button 
+              <button
                 className={`filter-chip ${category === 'Children' ? 'active' : ''}`}
                 onClick={() => handleCategoryClick('Children')}
               >
@@ -253,8 +253,8 @@ export default function Home() {
               {categoriesList
                 .filter(c => !["Men", "Women", "Children"].includes(c.name))
                 .map(c => (
-                  <button 
-                    key={c.id} 
+                  <button
+                    key={c.id}
                     className={`filter-chip ${category === c.name ? 'active' : ''}`}
                     onClick={() => handleCategoryClick(c.name)}
                   >
@@ -270,8 +270,8 @@ export default function Home() {
             <h4>Size</h4>
             <div className="chip-group">
               {['XS', 'S', 'M', 'L', 'XL', '30', '32', '34', '36'].map(s => (
-                <button 
-                  key={s} 
+                <button
+                  key={s}
                   className={`size-chip ${size === s ? 'active' : ''}`}
                   onClick={() => handleSizeClick(s)}
                 >
@@ -289,8 +289,8 @@ export default function Home() {
                 const hexColor = COLOR_MAP[c] || '#cccccc';
                 const isWhite = c.toLowerCase() === 'white';
                 return (
-                  <button 
-                    key={c} 
+                  <button
+                    key={c}
                     className={`color-swatch-btn ${color === c ? 'active' : ''} ${isWhite ? 'color-white' : ''}`}
                     style={{ backgroundColor: hexColor }}
                     onClick={() => handleColorClick(c)}
@@ -306,25 +306,25 @@ export default function Home() {
           <div className="filter-group">
             <h4>Rating</h4>
             <div className="chip-group">
-              <button 
+              <button
                 className={`filter-chip ${minRating === '0' ? 'active' : ''}`}
                 onClick={() => setMinRating('0')}
               >
                 All Ratings
               </button>
-              <button 
+              <button
                 className={`filter-chip ${minRating === '4' ? 'active' : ''}`}
                 onClick={() => handleRatingClick('4')}
               >
                 4★ & above
               </button>
-              <button 
+              <button
                 className={`filter-chip ${minRating === '3' ? 'active' : ''}`}
                 onClick={() => handleRatingClick('3')}
               >
                 3★ & above
               </button>
-              <button 
+              <button
                 className={`filter-chip ${minRating === '2' ? 'active' : ''}`}
                 onClick={() => handleRatingClick('2')}
               >
@@ -338,13 +338,13 @@ export default function Home() {
             <h4>Max Price</h4>
             <div className="price-range-group">
               <div className="price-range-label">Up to ₹{maxPrice.toLocaleString('en-IN')}</div>
-              <input 
-                type="range" 
-                min="500" 
-                max="15000" 
-                step="250" 
-                value={maxPrice} 
-                onChange={e => setMaxPrice(Number(e.target.value))} 
+              <input
+                type="range"
+                min="500"
+                max="15000"
+                step="250"
+                value={maxPrice}
+                onChange={e => setMaxPrice(Number(e.target.value))}
                 className="price-slider"
               />
             </div>
@@ -355,8 +355,8 @@ export default function Home() {
             <h4>Brand</h4>
             <div className="chip-group">
               {brands.map(b => (
-                <button 
-                  key={b} 
+                <button
+                  key={b}
                   className={`filter-chip ${brand === b ? 'active' : ''}`}
                   onClick={() => handleBrandClick(b)}
                 >
@@ -384,13 +384,13 @@ export default function Home() {
         <h2>Featured Collection</h2>
         <span>{filtered.length} items</span>
       </section>
-      
+
       <section className="product-grid">
         {filtered.map(product => (
-          <ProductCard 
-            key={product.id} 
-            product={product} 
-            onAdd={addToCart} 
+          <ProductCard
+            key={product.id}
+            product={product}
+            onAdd={addToCart}
             isWishlisted={wishlistIds.has(product.id)}
             onWishlistToggle={handleWishlistToggle}
             onQuickView={setQuickViewProduct}
@@ -412,7 +412,7 @@ export default function Home() {
               <div className="quick-view-body">
                 <span className="brand-name">{quickViewProduct.brand || 'Luxury Edit'}</span>
                 <h2>{quickViewProduct.name}</h2>
-                
+
                 <div className="stars-row" style={{ display: 'flex', gap: '4px', alignItems: 'center', margin: '8px 0' }}>
                   <Star size={15} fill="var(--gold-primary)" color="var(--gold-primary)" />
                   <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>{quickViewProduct.averageRating || '0.0'}</span>
@@ -438,15 +438,15 @@ export default function Home() {
                 </div>
 
                 <p className="description">{quickViewProduct.description}</p>
-                
+
                 {quickViewProduct.sizes && (
                   <div className="sizes-section" style={{ marginTop: '16px' }}>
                     <label style={{ display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: '8px' }}>Select Size</label>
                     <div className="sizes" style={{ display: 'flex', gap: '6px' }}>
                       {quickViewProduct.sizes.split(',').map(s => (
-                        <button 
-                          key={s} 
-                          className={selectedQuickSize === s ? 'selected' : ''} 
+                        <button
+                          key={s}
+                          className={selectedQuickSize === s ? 'selected' : ''}
                           onClick={() => setSelectedQuickSize(s)}
                           style={{ padding: '6px 12px', border: '1px solid var(--border-color)', borderRadius: '4px', cursor: 'pointer', background: selectedQuickSize === s ? 'var(--text-primary)' : 'none', color: selectedQuickSize === s ? 'white' : 'var(--text-primary)' }}
                         >
@@ -458,15 +458,15 @@ export default function Home() {
                 )}
 
                 <div className="actions" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '24px' }}>
-                  <button 
-                    className="secondary" 
+                  <button
+                    className="secondary"
                     onClick={() => { addToCart(quickViewProduct, selectedQuickSize); setQuickViewProduct(null); }}
                     style={{ height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                   >
                     Add to Cart
                   </button>
-                  <button 
-                    className="primary gold-btn" 
+                  <button
+                    className="primary gold-btn"
                     onClick={() => { handleBuyNow(quickViewProduct, selectedQuickSize); setQuickViewProduct(null); }}
                     style={{ height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                   >
