@@ -1,8 +1,25 @@
+# Dependencies
 node_modules/
+frontend/node_modules/
+
+# Build outputs
 dist/
+frontend/dist/
 target/
+backend/target/
+
+# IDE
 .idea/
 .vscode/
-*.log
-.env
 
+# Logs
+*.log
+
+# Environment secrets — NEVER commit these
+.env
+.env.local
+backend/src/main/resources/application.properties
+
+# OS
+.DS_Store
+Thumbs.db
