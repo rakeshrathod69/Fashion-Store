@@ -2884,3 +2884,356 @@ main {
 .role-selector button:hover:not(.active) {
   color: var(--text-primary);
 }
+
+/* =====================================================
+   MOBILE RESPONSIVE ENHANCEMENTS
+   ===================================================== */
+
+/* Hamburger toggle — hidden on desktop */
+.hamburger-btn {
+  display: none;
+}
+
+/* Mobile nav backdrop */
+.mobile-nav-backdrop {
+  display: none;
+}
+
+/* ---- 768px: Tablet tweaks ---- */
+@media (max-width: 768px) {
+  .auth-shell {
+    grid-template-columns: 1fr !important;
+  }
+
+  .auth-hero {
+    display: none; /* hide decorative hero panel on mobile */
+  }
+
+  .auth-panel {
+    padding: 40px 32px !important;
+    min-height: 100vh;
+    justify-content: flex-start;
+    padding-top: 60px !important;
+  }
+}
+
+/* ---- 640px: Full Mobile ---- */
+@media (max-width: 640px) {
+
+  /* Show hamburger button */
+  .hamburger-btn {
+    display: inline-flex;
+  }
+
+  /* Force topbar to brand | actions only */
+  .topbar {
+    grid-template-columns: 1fr auto !important;
+    padding: 12px 16px !important;
+    gap: 12px !important;
+  }
+
+  /* Mobile nav: fixed dropdown, hidden by default */
+  .topbar nav {
+    position: fixed;
+    top: 66px;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    /* Reset desktop styles */
+    grid-column: auto !important;
+    order: 0 !important;
+    width: 100% !important;
+    border-radius: 0 !important;
+    background: var(--bg-primary) !important;
+    padding: 12px 16px 20px !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    border-bottom: 2px solid var(--gold-primary);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+    /* Hidden state */
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .topbar nav.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+
+  .topbar nav a {
+    padding: 14px 20px !important;
+    border-radius: 8px !important;
+    font-size: 0.9rem !important;
+    text-align: center;
+    color: var(--text-primary) !important;
+    background: var(--bg-secondary);
+    width: 100%;
+  }
+
+  .topbar nav a.active {
+    background: var(--primary-color) !important;
+    color: var(--secondary-color) !important;
+    border-radius: 8px !important;
+  }
+
+  /* Mobile nav backdrop */
+  .mobile-nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    top: 66px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(3px);
+    z-index: 199;
+    animation: fadeIn 0.2s ease;
+  }
+
+  /* Brand: hide subtitle text */
+  .brand small {
+    display: none;
+  }
+
+  .brand span {
+    font-size: 1.15rem !important;
+  }
+
+  /* Reduce icon button size slightly */
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* Section margins */
+  .notice,
+  .section-head,
+  .product-grid,
+  .page-grid,
+  .admin,
+  .product-details-container {
+    margin-left: 14px !important;
+    margin-right: 14px !important;
+  }
+
+  /* Section head: stack */
+  .section-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 28px;
+  }
+
+  .section-head h2 {
+    font-size: 1.45rem;
+  }
+
+  /* Product grid: 2 cols on mobile (not 1) */
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 14px;
+    padding: 16px 0 40px;
+  }
+
+  .product-body {
+    padding: 14px;
+  }
+
+  .product-body h3 {
+    font-size: 1rem;
+  }
+
+  /* Cart page */
+  .page-grid {
+    padding: 20px 0;
+    gap: 20px;
+  }
+
+  .cart-row {
+    grid-template-columns: 80px 1fr !important;
+    gap: 12px;
+  }
+
+  .save-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px;
+  }
+
+  /* Checkout: form grids → 1 col */
+  .form-grid-2,
+  .form-grid-3 {
+    grid-template-columns: 1fr !important;
+    gap: 0;
+  }
+
+  /* Checkout wizard header: wrap */
+  .checkout-wizard-header {
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .checkout-step-indicator {
+    font-size: 0.7rem;
+    gap: 6px;
+  }
+
+  /* Secure badges */
+  .secure-badges-row {
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Profile: sidebar becomes horizontal scroll row */
+  .profile-tabs-layout {
+    padding: 20px 0;
+    gap: 20px;
+  }
+
+  .profile-sidebar {
+    flex-direction: row !important;
+    overflow-x: auto;
+    gap: 8px;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .profile-sidebar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .profile-tab-btn {
+    flex-shrink: 0;
+    padding: 11px 18px;
+    white-space: nowrap;
+    border-radius: 20px;
+    font-size: 0.78rem;
+  }
+
+  /* Admin: metrics 2-col */
+  .admin-metrics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px;
+  }
+
+  .metric-card {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .metric-card .details strong {
+    font-size: 1.3rem;
+  }
+
+  .panel {
+    padding: 18px 16px;
+  }
+
+  /* Order cards */
+  .order-detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .order-actions-footer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .order-actions-footer > * {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Tracking timeline — already vertical at 600px, reinforce */
+  .tracking-node {
+    width: auto;
+  }
+
+  /* Quick view modal */
+  .quick-view-modal-box {
+    width: 96%;
+    padding: 20px 16px;
+  }
+
+  /* Filter controls */
+  .filter-controls-header {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 14px 16px;
+  }
+
+  .filter-controls-header .searchbox {
+    flex-grow: 1;
+    min-width: 0;
+  }
+
+  /* Footer */
+  .site-footer {
+    padding: 40px 16px 24px;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 40px 16px;
+    min-height: 360px;
+  }
+
+  /* Product details */
+  .product-details-container {
+    padding: 24px 0;
+  }
+
+  .details-info h1 {
+    font-size: 1.6rem;
+  }
+
+  .details-info .price {
+    font-size: 1.4rem;
+  }
+
+  /* Reviews */
+  .reviews-section {
+    margin-top: 36px;
+    padding-top: 24px;
+  }
+}
+
+/* ---- 420px: Very small phones ---- */
+@media (max-width: 420px) {
+
+  .product-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
+
+  .admin-metrics-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hero-stats {
+    grid-template-columns: 1fr !important;
+  }
+
+  .save-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .auth-panel {
+    padding: 28px 16px !important;
+  }
+
+  .topbar nav {
+    top: 62px;
+  }
+
+  .mobile-nav-backdrop {
+    top: 62px;
+  }
+}

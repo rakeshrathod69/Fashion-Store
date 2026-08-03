@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, NavLink, Route, Routes, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, LogOut, ShoppingBag, Store, UserRound, Heart } from 'lucide-react';
+import { LayoutDashboard, LogOut, ShoppingBag, Store, UserRound, Heart, Menu, X } from 'lucide-react';
 import { getSession, logout } from './api';
 import Home from './pages/Home.jsx';
 import Auth from './pages/Auth.jsx';
@@ -14,6 +14,7 @@ import Footer from './components/Footer.jsx';
 export default function App() {
   const session = getSession();
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   React.useEffect(() => {
     if (session?.role === 'ADMIN' && window.location.pathname === '/') {
@@ -27,33 +28,64 @@ export default function App() {
     window.location.reload();
   }
 
+  const closeMenu = () => setMenuOpen(false);
+
   return (
     <>
       <header className="topbar">
-        <Link className="brand" to="/">
+        <Link className="brand" to="/" onClick={closeMenu}>
           <span className="brand-mark"><Store size={19} /></span>
           <span>
             Aura Luxe
             <small>Curated Luxury Apparel</small>
           </span>
         </Link>
-        <nav>
-          <NavLink to="/">Shop</NavLink>
-          <NavLink to="/cart">Cart</NavLink>
-          {session?.role === 'ADMIN' && <NavLink to="/admin">Admin</NavLink>}
-          {session ? <NavLink to="/profile">Profile</NavLink> : <NavLink to="/login">Login</NavLink>}
+
+        <nav className={menuOpen ? 'open' : ''}>
+          <NavLink to="/" onClick={closeMenu}>Shop</NavLink>
+          <NavLink to="/cart" onClick={closeMenu}>Cart</NavLink>
+          {session?.role === 'ADMIN' && <NavLink to="/admin" onClick={closeMenu}>Admin</NavLink>}
+          {session
+            ? <NavLink to="/profile" onClick={closeMenu}>Profile</NavLink>
+            : <NavLink to="/login" onClick={closeMenu}>Login</NavLink>}
         </nav>
+
         <div className="header-actions">
-          <Link className="icon-btn" to="/profile?tab=wishlist" aria-label="Wishlist"><Heart size={18} /></Link>
-          <Link className="icon-btn" to="/cart" aria-label="Cart"><ShoppingBag size={18} /></Link>
-          {session?.role === 'ADMIN' && <Link className="icon-btn" to="/admin" aria-label="Admin dashboard"><LayoutDashboard size={18} /></Link>}
-          {session ? (
-            <button className="icon-btn" onClick={signOut} aria-label="Logout"><LogOut size={18} /></button>
-          ) : (
-            <Link className="icon-btn" to="/login" aria-label="Login"><UserRound size={18} /></Link>
+          <Link className="icon-btn" to="/profile?tab=wishlist" aria-label="Wishlist" onClick={closeMenu}>
+            <Heart size={18} />
+          </Link>
+          <Link className="icon-btn" to="/cart" aria-label="Cart" onClick={closeMenu}>
+            <ShoppingBag size={18} />
+          </Link>
+          {session?.role === 'ADMIN' && (
+            <Link className="icon-btn" to="/admin" aria-label="Admin dashboard" onClick={closeMenu}>
+              <LayoutDashboard size={18} />
+            </Link>
           )}
+          {session ? (
+            <button className="icon-btn" onClick={signOut} aria-label="Logout">
+              <LogOut size={18} />
+            </button>
+          ) : (
+            <Link className="icon-btn" to="/login" aria-label="Login" onClick={closeMenu}>
+              <UserRound size={18} />
+            </Link>
+          )}
+          {/* Hamburger — only visible on mobile via CSS */}
+          <button
+            className="icon-btn hamburger-btn"
+            onClick={() => setMenuOpen(m => !m)}
+            aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+          >
+            {menuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
       </header>
+
+      {/* Mobile nav backdrop */}
+      {menuOpen && <div className="mobile-nav-backdrop" onClick={closeMenu} />}
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetails />} />
