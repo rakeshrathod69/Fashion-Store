@@ -140,7 +140,7 @@ public class OrderService {
             throw new IllegalStateException("Order cannot be cancelled at this stage");
         }
         order.setStatus(OrderStatus.CANCELLED);
-        if (order.getPayment() != null && !order.getPayment().getMethod().equals("CASH_ON_DELIVERY")) {
+        if (order.getPayment() != null && order.getPayment().getMethod() != PaymentMethod.CASH_ON_DELIVERY) {
             order.setRefundStatus("PENDING");
             if (order.getPayment().getStatus().equals("PAID")) {
                 order.getPayment().setStatus("REFUND_PENDING");
