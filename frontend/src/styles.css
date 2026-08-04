@@ -180,7 +180,8 @@ img {
   border-color: var(--primary-color);
 }
 
-nav {
+nav,
+.desktop-nav {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -190,7 +191,8 @@ nav {
   border-radius: 30px;
 }
 
-nav a {
+nav a,
+.desktop-nav a {
   padding: 8px 18px;
   border-radius: 20px;
   font-size: 0.85rem;
@@ -200,9 +202,15 @@ nav a {
   color: var(--text-secondary);
 }
 
-nav a.active {
+nav a.active,
+.desktop-nav a.active {
   color: var(--secondary-color);
   background: var(--primary-color);
+}
+
+/* Mobile nav dropdown — rendered outside header to avoid stacking context */
+.mobile-nav-dropdown {
+  display: none;
 }
 
 .header-actions {
@@ -2981,57 +2989,62 @@ main {
     gap: 12px !important;
   }
 
-  /* Mobile nav: fixed dropdown, hidden by default */
-  .topbar nav {
+  /* Hide desktop nav on mobile */
+  .desktop-nav {
+    display: none !important;
+  }
+
+  /* Mobile nav dropdown — outside header, full z-index control */
+  .mobile-nav-dropdown {
+    display: flex;
+    flex-direction: column;
     position: fixed;
     top: 66px;
     left: 0;
     right: 0;
     z-index: 300;
-    /* Reset desktop styles */
-    grid-column: auto !important;
-    order: 0 !important;
-    width: 100% !important;
-    border-radius: 0 !important;
-    background: var(--bg-primary) !important;
-    padding: 12px 16px 20px !important;
-    flex-direction: column !important;
-    gap: 6px !important;
-    align-items: stretch !important;
-    justify-content: flex-start !important;
+    background: var(--bg-primary);
+    padding: 12px 16px 20px;
+    gap: 6px;
     border-bottom: 2px solid var(--gold-primary);
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
-    /* Hidden state */
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translateY(-10px);
     pointer-events: none;
     transition: opacity 0.25s ease, transform 0.25s ease;
   }
 
-  .topbar nav.open {
+  .mobile-nav-dropdown.open {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
   }
 
-  .topbar nav a {
-    padding: 16px 20px !important;
-    border-radius: 8px !important;
-    font-size: 0.95rem !important;
+  .mobile-nav-dropdown a {
+    display: block;
+    padding: 16px 20px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     text-align: center;
-    color: var(--text-primary) !important;
+    color: var(--text-primary);
     background: var(--bg-secondary);
     width: 100%;
-    display: block;
     cursor: pointer;
-    -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+    -webkit-tap-highlight-color: rgba(0,0,0,0.08);
   }
 
-  .topbar nav a.active {
-    background: var(--primary-color) !important;
-    color: var(--secondary-color) !important;
-    border-radius: 8px !important;
+  .mobile-nav-dropdown a.active {
+    background: var(--primary-color);
+    color: var(--secondary-color);
   }
+
+  .mobile-nav-dropdown a:hover {
+    background: var(--bg-tertiary);
+  }
+
 
   /* Mobile nav backdrop */
   .mobile-nav-backdrop {

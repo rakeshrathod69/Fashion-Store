@@ -41,7 +41,8 @@ export default function App() {
           </span>
         </Link>
 
-        <nav className={menuOpen ? 'open' : ''}>
+        {/* Desktop nav — hidden on mobile via CSS */}
+        <nav className="desktop-nav">
           <NavLink to="/" onClick={closeMenu}>Shop</NavLink>
           <NavLink to="/cart" onClick={closeMenu}>Cart</NavLink>
           {session?.role === 'ADMIN' && <NavLink to="/admin" onClick={closeMenu}>Admin</NavLink>}
@@ -82,6 +83,16 @@ export default function App() {
           </button>
         </div>
       </header>
+
+      {/* Mobile nav — outside header to escape backdrop-filter stacking context */}
+      <nav className={`mobile-nav-dropdown ${menuOpen ? 'open' : ''}`}>
+        <NavLink to="/" onClick={closeMenu}>Shop</NavLink>
+        <NavLink to="/cart" onClick={closeMenu}>Cart</NavLink>
+        {session?.role === 'ADMIN' && <NavLink to="/admin" onClick={closeMenu}>Admin</NavLink>}
+        {session
+          ? <NavLink to="/profile" onClick={closeMenu}>Profile</NavLink>
+          : <NavLink to="/login" onClick={closeMenu}>Login</NavLink>}
+      </nav>
 
       {/* Mobile nav backdrop */}
       {menuOpen && <div className="mobile-nav-backdrop" onClick={closeMenu} />}
