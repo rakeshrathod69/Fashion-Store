@@ -2108,6 +2108,31 @@ main {
   border-color: var(--primary-color);
 }
 
+/* Back button inside the auth panel */
+.auth-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  align-self: flex-start;
+  margin-bottom: 24px;
+  font-size: 0.75rem;
+  padding: 5px 12px;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.auth-back-btn:hover {
+  background: var(--bg-tertiary);
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
 /* Responsive Overrides */
 @media (max-width: 1100px) {
 
@@ -2910,10 +2935,34 @@ main {
   }
 
   .auth-panel {
-    padding: 40px 32px !important;
+    padding: 32px 24px !important;
     min-height: 100vh;
     justify-content: flex-start;
-    padding-top: 60px !important;
+    padding-top: 36px !important;
+  }
+
+  .auth-back-btn {
+    margin-bottom: 20px;
+  }
+
+  /* Stack: Welcome/title on top, tabs below */
+  .auth-panel-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding-bottom: 18px;
+    margin-bottom: 28px;
+  }
+
+  .auth-tabs {
+    width: 100%;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 4px;
+  }
+
+  .auth-tabs button {
+    flex: 1;
+    text-align: center;
   }
 }
 

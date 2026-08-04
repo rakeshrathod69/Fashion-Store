@@ -140,10 +140,7 @@ export default function Auth() {
   }
 
   return (
-    <main className="auth-shell" style={{ position: 'relative' }}>
-      <button className="back-btn" onClick={() => navigate(-1)} style={{ position: 'absolute', top: '20px', left: '20px', zIndex: 10 }} aria-label="Go Back">
-        <ArrowLeft size={14} /> Back
-      </button>
+    <main className="auth-shell">
       <section className="auth-hero">
         <div className="auth-hero-card">
           <p className="eyebrow">Account access</p>
@@ -167,6 +164,9 @@ export default function Auth() {
       </section>
 
       <section className="auth-panel panel">
+        <button className="back-btn auth-back-btn" onClick={() => navigate(-1)} aria-label="Go Back">
+          <ArrowLeft size={13} /> Back
+        </button>
         {mode === 'forgot-password' ? (
           <>
             <div className="auth-panel-head">
@@ -248,7 +248,7 @@ export default function Auth() {
         ) : (
           <>
             <div className="auth-panel-head">
-              <div>
+              <div className="auth-panel-title">
                 <span className="auth-kicker">Welcome</span>
                 <h2>{mode === 'login' ? 'Sign in' : 'Register'}</h2>
               </div>
